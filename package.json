@@ -1,0 +1,19 @@
+{
+  "name": "ejercicio2",
+  "version": "1.0.0",
+  "description": "ejercicio 2 node",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "server": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "David Peña Santos",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2"
+  }
+}
