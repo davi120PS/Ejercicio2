@@ -48,3 +48,26 @@ const port = 3000;
 app.listen(port,()=>{
     console.log('El servidor escucha en el puerto ' +port)
 });
+
+const mysql = require('mysql');
+const connection = mysql.createConnection({
+    host: 'localhost',
+    user: 'root',
+    password: '',
+    database: 'db_universidad'
+});
+connection.connect((err) => {
+    if(err){
+        console.error('Error de conecxion: ', err);
+        return;
+    }
+    console.log('Conectado a la base de datos!');
+});
+
+connection.query('SELECT * FROM tbl_carrera', (err,rows) => {
+    if(err){
+        console.error('Error al realizar la consulta: ',err);
+        return;
+    }
+    console.log('Resuultados: ', rows);
+});
