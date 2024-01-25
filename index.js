@@ -69,5 +69,16 @@ connection.query('SELECT * FROM tbl_carrera', (err,rows) => {
         console.error('Error al realizar la consulta: ',err);
         return;
     }
-    console.log('Resuultados: ', rows);
+    console.log('Resultados: ', rows);
+});
+
+connection.query('SELECT al.ID_Alumno, al.Nombre, al.Apellido, cal.Calificacion,mat.Materia,car.Carrera FROM tbl_alumno as al'+
+                ' INNER JOIN tbl_carrera as car on car.ID_Carrera=al.FK_Carrera'+
+                ' INNER JOIN tbl_calificaciones as cal ON al.ID_Alumno = cal.FK_Alumno'+
+                ' INNER JOIN tbl_materia as mat ON mat.ID_Materia=cal.FK_Materia;', (err,rows) => {
+    if(err){
+        console.error('Error al realizar la consulta: ',err);
+        return;
+    }
+    console.log('Resultados: ', rows);
 });
