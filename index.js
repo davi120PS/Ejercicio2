@@ -6,8 +6,8 @@ app.use(express.urlencoded({extended: true}));
 
 //cargamos el archivo de rutas
 app.use(require('./routes/alumnos'));
-
-//app.use(require('.routes/materias'));
+app.use(require('./routes/materias'));
+app.use(require('./routes/carreras'));
 
 const PORT = process.env.PORT;
 
