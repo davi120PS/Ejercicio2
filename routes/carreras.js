@@ -4,9 +4,20 @@ const dotenv = require("dotenv");
 dotenv.config();
 
 //conexion con la base de datos
-const {connection}=require('../config/config.db');
+const {connection} = require("../config/config.db");
 
 // Servicio nuevo de carrera vamos a enviar un ID para separar las carreras  visualizarlas segun su ID de carrera
+
+const getCarrera = (request,response) => {
+    connection.query("SELECT * FROM tbl_carrera",
+    (error,results)=>{
+        if(error)
+        throw error;
+    response.status(200).json(results);
+    });
+};
+app.route("/carreras").get(getCarrera);
+
 const getCarreraID = (request,response) => {
     const id = request.params.id;
     //console.log(id); return false;
@@ -20,5 +31,5 @@ const getCarreraID = (request,response) => {
         response.status(201).json(results);
     });
 };
-app.route("/carrera/:id").get(getCarreraID);
+app.route("/carreras/:id").get(getCarreraID);
 module.exports = app;

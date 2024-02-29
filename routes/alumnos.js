@@ -37,7 +37,7 @@ const postAlumno = (request, response) => {
     //console.log(action);return false;
     if(action == "insert"){
         connection.query("INSERT INTO tbl_alumno (FK_Carrera, Nombre, Apellido, Edad, Email, Estado) VALUES (?,?,?,?,?,?)", 
-        [carrera, nombre, apellido, edad,email,estado],
+        [carrera, nombre, apellido,edad,email,estado],
         (error, results) => {
             if(error)
                 throw error;
