@@ -7,7 +7,7 @@ dotenv.config();
 const {connection}=require('../config/config.db');
 
 const getAlumno = (request,response) => {
-    connection.query("SELECT tbl_alumno.Nombre,tbl_alumno.Email, tbl_carrera.Carrera FROM tbl_alumno INNER JOIN tbl_carrera WHERE tbl_alumno.FK_Carrera = tbl_carrera.ID_Carrera",
+    connection.query("SELECT tbl_alumno.ID_Alumno, tbl_alumno.Nombre, tbl_alumno.Apellido,tbl_alumno.Email, tbl_alumno.Edad, tbl_carrera.Carrera FROM tbl_alumno INNER JOIN tbl_carrera WHERE tbl_alumno.FK_Carrera = tbl_carrera.ID_Carrera",
     (error,results)=>{
         if(error)
             throw error;
@@ -28,12 +28,11 @@ const getAlumnoCarrera = (request,response) => {
         response.status(200).json(results);
     });
 };
-//ruta
 app.route("/alumnoscarrera").get(getAlumnoCarrera);
 
 /*aqui va mi primer post*/
 const postAlumno = (request, response) => {
-    const {action,id,carrera, nombre, apellido, edad, email, estado} = request.body;
+    const {action,id,carrera, nombre, apellido, edad, email, estado, ID_Alumno} = request.body;
     //console.log(action);return false;
     if(action == "insert"){
         connection.query("INSERT INTO tbl_alumno (FK_Carrera, Nombre, Apellido, Edad, Email, Estado) VALUES (?,?,?,?,?,?)", 
@@ -45,7 +44,7 @@ const postAlumno = (request, response) => {
         });
     }else{
         //console.log(action);return false;
-        connection.query("UPDATE tbl_alumno SET FK_Carrera = ?, Nombre = ?, Apellido =?, Edad = ? , Email = ?, Estado = ? WHERE ID_Alumno = ?", 
+        connection.query("UPDATE tbl_alumno SET FK_Carrera = ?, Nombre = ?, Apellido =?, Edad = ? , Email = ?, Estado = ? WHERE ID_Alumno = "+ID_Alumno+"", 
         [carrera,nombre, apellido, edad,email,estado,id],
         (error, results) => {
             if(error)
@@ -55,6 +54,18 @@ const postAlumno = (request, response) => {
     }
 };
 app.route("/alumnos").post(postAlumno);
+
+const getAlumnoId = (request,response) => {
+    const id = request.params.id;
+    connection.query("SELECT al.*, al.Nombre AS nombre, al.Apellido AS apellido, al.Edad AS edad, al.Email AS email, al.Estado AS estado, cr.Carrera, cr.ID_Carrera AS carrera FROM tbl_alumno al LEFT JOIN tbl_carrera cr ON al.FK_Carrera = cr.ID_Carrera WHERE al.ID_Alumno = ?",
+    [id],
+    (error,results)=>{
+        if(error)
+            throw error;
+        response.status(200).json(results);
+    });
+};
+app.route("/alumnos/:id").get(getAlumnoId);
 
 /************Aqui va el servicio de eliminar alumnos*/
 const delAlumno = (request,response) => {
